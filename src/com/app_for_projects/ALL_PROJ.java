@@ -65,6 +65,10 @@ public class ALL_PROJ extends Thread {
         }
     }
 
+    public static boolean contains(String str, String substr){
+        return str.contains(substr);
+    }
+
     //---------------------ВСЕ элементы в окне-------------------------------
     private void FrameElements(){
         JPanel zxc = new JPanel();
@@ -78,6 +82,7 @@ public class ALL_PROJ extends Thread {
         mainContainer.add(MainTitle, BorderLayout.NORTH);
         //----------------Список всех проектов----------------------------
         final DefaultListModel<String> ListDoneProjects = new DefaultListModel<>();
+
         //-------------
         ListDoneProjects.addElement("'<Tap on Enter>'");
         ListDoneProjects.addElement("Calculator");
@@ -99,9 +104,7 @@ public class ALL_PROJ extends Thread {
         ArrayList<File> fileList = new ArrayList<>();
         ALL_PROJ.searchFiles(new File(desktop_path + "\\App-for-projects"), fileList);
         for (File file : fileList) {
-            if (file.getAbsoluteFile() != null) {
-                ListDoneProjects.addElement(file.getName());
-            }
+           ListDoneProjects.addElement(file.getName().replace(".txt", ""));
         }
         //--------------
         JList<String> MainList = new JList<>(ListDoneProjects);
@@ -111,7 +114,9 @@ public class ALL_PROJ extends Thread {
         JScrollPane pane = new JScrollPane(MainList);
         pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         mainContainer.add(pane, BorderLayout.WEST);
-        //---------------Окно в котором пояляется код----------------------
+
+
+        //---------------Окно в котором появляется код----------------------
         TransparentTextArea.CustomTextArea CodeWindow = new TransparentTextArea.CustomTextArea();
         CodeWindow.setForeground(new Color(209, 161, 226));
         CodeWindow.setFont(new Font("Arial", Font.BOLD, 20));
@@ -121,6 +126,7 @@ public class ALL_PROJ extends Thread {
         ScrollForCodeWindow.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         zxc.add(ScrollForCodeWindow);
+
         //-----------------------ОСНОВНАЯ ФИГНЯ, Выбор кода------------------------------------
         MainList.addMouseListener(new MouseAdapter() {
             @Override
@@ -133,9 +139,9 @@ public class ALL_PROJ extends Thread {
                 main_window.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
             }
         });
-
         MainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         MainList.addListSelectionListener(e -> MainList.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
 
@@ -702,280 +708,356 @@ public class ALL_PROJ extends Thread {
                             "        }");
                 }
                 else if (MainList.getSelectedIndex() == 16) {
-                    String fileName = desktop_path + "\\App-for-projects\\null16.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    CodeWindow.setText(content);
+                    String getName = ListDoneProjects.getElementAt(16);
 
+                    if(contains(getName, "16")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
+                    }
                 }
                 else if (MainList.getSelectedIndex() == 17) {
-                    String fileName = desktop_path + "\\App-for-projects\\null17.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(17);
+                    if(contains(getName, "17")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 18) {
-                    String fileName = desktop_path + "\\App-for-projects\\null18.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(18);
+                    if(contains(getName, "18")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 19) {
-                    String fileName = desktop_path + "\\App-for-projects\\null19.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(19);
+                    if(contains(getName, "19")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 20) {
-                    String fileName = desktop_path + "\\App-for-projects\\null20.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(20);
+                    if(contains(getName, "20")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 21) {
-                    String fileName = desktop_path + "\\App-for-projects\\null21.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(21);
+                    if(contains(getName, "21")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 22) {
-                    String fileName = desktop_path + "\\App-for-projects\\null22.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(22);
+                    if(contains(getName, "22")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 23) {
-                    String fileName = desktop_path + "\\App-for-projects\\null23.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(23);
+                    if(contains(getName, "23")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 24) {
-                    String fileName = desktop_path + "\\App-for-projects\\null24.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(24);
+                    if(contains(getName, "24")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 25) {
-                    String fileName = desktop_path + "\\App-for-projects\\null25.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(25);
+                    if(contains(getName, "25")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 26) {
-                    String fileName = desktop_path + "\\App-for-projects\\null26.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(26);
+                    if(contains(getName, "26")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 27) {
-                    String fileName = desktop_path + "\\App-for-projects\\null27.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(27);
+                    if(contains(getName, "27")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 28) {
-                    String fileName = desktop_path + "\\App-for-projects\\null28.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(28);
+                    if(contains(getName, "28")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 29) {
-                    String fileName = desktop_path + "\\App-for-projects\\null29.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(29);
+                    if(contains(getName, "29")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 30) {
-                    String fileName = desktop_path + "\\App-for-projects\\null30.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(30);
+                    if(contains(getName, "30")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 31) {
-                    String fileName = desktop_path + "\\App-for-projects\\null31.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(31);
+                    if(contains(getName, "31")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 32) {
-                    String fileName = desktop_path + "\\App-for-projects\\null32.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(32);
+                    if(contains(getName, "32")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 33) {
-                    String fileName = desktop_path + "\\App-for-projects\\null33.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(33);
+                    if(contains(getName, "33")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 34) {
-                    String fileName = desktop_path + "\\App-for-projects\\null34.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(34);
+                    if(contains(getName, "34")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 35) {
-                    String fileName = desktop_path + "\\App-for-projects\\null35.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(35);
+                    if(contains(getName, "35")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 36) {
-                    String fileName = desktop_path + "\\App-for-projects\\null36.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(36);
+                    if(contains(getName, "36")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 37) {
-                    String fileName = desktop_path + "\\App-for-projects\\null37.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(37);
+                    if(contains(getName, "37")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 38) {
-                    String fileName = desktop_path + "\\App-for-projects\\null38.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(38);
+                    if(contains(getName, "38")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 39) {
-                    String fileName = desktop_path + "\\App-for-projects\\null39.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(39);
+                    if(contains(getName, "39")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
                 else if (MainList.getSelectedIndex() == 40) {
-                    String fileName = desktop_path + "\\App-for-projects\\null40.txt";
-                    String content = null;
-                    try {
-                        content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    String getName = ListDoneProjects.getElementAt(40);
+                    if(contains(getName, "40")){
+                        String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                        String content = null;
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
                     }
-                    CodeWindow.setText(content);
 
                 }
+
             }
         }));
 //-----------------Копирование текста с помощью ПКМ----------------------------------------
@@ -990,7 +1072,7 @@ public class ALL_PROJ extends Thread {
                 }
             }
         });
-        File[] file = new File[1];
+
         //-------------------Для добавления нового проекта-----------------------------
         MainList.addKeyListener(new KeyAdapter() {
             @Override
@@ -1025,7 +1107,7 @@ public class ALL_PROJ extends Thread {
                     NameNewProj.setBackground(new Color(9, 50, 50));
                     NameNewProj.setForeground(new Color(144, 144, 144));
                     NameNewProj.setFont(new Font(null, Font.BOLD, 18));
-                    NameNewProj.setText("<TITLE>");
+                    NameNewProj.setText("Title");
                     NameNewProj.setHorizontalAlignment(JLabel.CENTER);
                     box.add(NameNewProj, BorderLayout.NORTH);
 
@@ -1082,10 +1164,10 @@ public class ALL_PROJ extends Thread {
                                     !Objects.equals(getTextFromIndex, "") &&
                                     !cyrillic){
                                 {
-                                    ListDoneProjects.addElement(MainNameNewProject);
+                                    ListDoneProjects.addElement("-" + getTextFromIndex);
                                     WindowForAddProject.setVisible(false);
                                     try {
-                                        File createTxtFile = new File(desktop_path + "\\App-for-projects\\" + file[0] + getTextFromIndex + ".txt");
+                                        File createTxtFile = new File(desktop_path + "\\App-for-projects\\" + "-" + getTextFromIndex + ".txt");
 
                                         // if file doesn't exists, then create it
                                         if (!createTxtFile.exists()) {
@@ -1105,242 +1187,11 @@ public class ALL_PROJ extends Thread {
                             }
                         }
                     });
-                    MainList.addListSelectionListener(y -> MainList.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent y) {
-                            if (MainList.getSelectedIndex() == 16) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "16.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 17) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "17.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
 
-                            }
-                            else if (MainList.getSelectedIndex() == 18) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "18.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 19) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "19.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-
-                            }
-                            else if (MainList.getSelectedIndex() == 20) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "20.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-
-                            }
-                            else if (MainList.getSelectedIndex() == 21) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "21.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 22) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "22.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 23) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "23.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 24) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "24.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 25) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "25.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 26) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "26.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 27) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "27.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 28) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "28.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 29) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "29.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 30) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "30.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 31) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "31.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 32) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "32.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 33) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "33.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 34) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "34.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 35) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "35.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 36) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "36.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 37) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "37.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 38) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "38.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 39) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "39.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                            else if (MainList.getSelectedIndex() == 40) {
-                                String content = null;
-                                try {
-                                    content = Files.lines(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + "40.txt")).reduce("", (a, b) -> a + "\n" + b);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                CodeWindow.setText(content);
-                            }
-                        }
-                    }));
                 }
             }
         });
+
         //------------------Кнопка Очистить-------------------------------
         JButton ButtonForClean = new JButton("CLEAN");
         ButtonForClean.setFont(new Font("century gothic", Font.BOLD, 19));
@@ -1376,9 +1227,10 @@ public class ALL_PROJ extends Thread {
             MainList.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    String getName = ListDoneProjects.getElementAt(last_index);
                     if (e.getButton() == MouseEvent.BUTTON3 && 16 <= last_index && MainList.getSelectedIndex() == MainList.getLastVisibleIndex()) {
                         try {
-                            Files.delete(Paths.get(desktop_path + "\\App-for-projects\\" + file[0] + last_index + ".txt"));
+                            Files.delete(Paths.get(desktop_path + "\\App-for-projects\\" + getName + ".txt"));
                         } catch (IOException x) {
                             x.printStackTrace();
                         }
