@@ -14,8 +14,11 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ALL_PROJ extends Thread {
     JFrame main_window = new JFrame("All Projects");//создаём основное окно и название
@@ -25,7 +28,8 @@ public class ALL_PROJ extends Thread {
     //получаем screen size
     Dimension sSize = Toolkit.getDefaultToolkit ().getScreenSize ();
 
-    int getLast_index, count_of_index, vertical, horizontal;// последний индекс в списке проектов и не только
+    int getLast_index, count_of_index, vertical, horizontal, getIndexToDel;// последний индекс в списке проектов и не только
+    String getName, fileName, content, ctc, getName1;
 
     public ALL_PROJ() {
         FrameSettings();
@@ -35,7 +39,7 @@ public class ALL_PROJ extends Thread {
     private void FrameSettings() {
         horizontal = sSize.width;
         vertical = sSize.height;
-        main_window.setSize(horizontal / 2, vertical - 130);
+        main_window.setSize((int) (horizontal / 1.7), vertical - 130);
         main_window.getContentPane().setBackground(Color.LIGHT_GRAY);
         main_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main_window.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));//крестообразный курсор
@@ -67,6 +71,7 @@ public class ALL_PROJ extends Thread {
     }
 
     //---------------------ВСЕ элементы в окне-------------------------------
+   
     private void FrameElements() {
         JPanel extension_panel = new JPanel();
         extension_panel.setLayout(new BorderLayout());
@@ -99,7 +104,9 @@ public class ALL_PROJ extends Thread {
         mainContainer.add(pane, BorderLayout.WEST);
 
         //---------------Окно в котором появляется код----------------------
-        TransparentTextArea.CustomTextArea CodeWindow = new TransparentTextArea.CustomTextArea();
+       // TransparentTextArea.CustomTextArea CodeWindow = new TransparentTextArea.CustomTextArea();
+        JTextArea CodeWindow = new JTextArea();
+        CodeWindow.setBackground(new Color(9,1,28));
         CodeWindow.setForeground(new Color(209, 161, 226));
         CodeWindow.setFont(new Font("Arial", Font.BOLD, 20));
         extension_panel.add(CodeWindow);
@@ -128,9 +135,9 @@ public class ALL_PROJ extends Thread {
             public void mouseClicked(MouseEvent e) {
                 count_of_index = MainList.getSelectedIndex();
 
-                String getName = ListDoneProjects.getElementAt(count_of_index);
-                String fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
-                String content = null;
+                getName = ListDoneProjects.getElementAt(count_of_index);
+                fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
+                content = null;
                 try {
                     content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
                 } catch (IOException ex) {
@@ -146,7 +153,7 @@ public class ALL_PROJ extends Thread {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    String ctc = CodeWindow.getText();
+                    ctc = CodeWindow.getText();
                     StringSelection stringSelection = new StringSelection(ctc);
                     Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
                     clpbrd.setContents(stringSelection, null);
@@ -202,8 +209,10 @@ public class ALL_PROJ extends Thread {
                     IndexField.setHorizontalAlignment(JLabel.CENTER);
                     box.add(IndexField);
                     //--------------------------------------------------------------
-                    TransparentTextArea.CustomTextArea CodeNewProj = new TransparentTextArea.CustomTextArea();
-                    CodeNewProj.setBackground(Color.BLACK);
+                    //TransparentTextArea.CustomTextArea CodeNewProj = new TransparentTextArea.CustomTextArea();
+                    JTextArea CodeNewProj = new JTextArea();
+                    CodeNewProj.setRows(240);
+                    CodeNewProj.setBackground(new Color(9,1,28));
                     CodeNewProj.setForeground(new Color(209, 161, 226));
                     CodeNewProj.setFont(new Font(null, Font.BOLD, 18));
                     CodeNewProj.setText("//Enter your code here\nMIN Index - 16"  + ", MAX Index - 40");
@@ -220,11 +229,9 @@ public class ALL_PROJ extends Thread {
                         public void mouseClicked(MouseEvent e) {
                             String MainNameNewProject = NameNewProj.getText();// Name NewProject
                             String getTextCodeNewProject = CodeNewProj.getText();//text from NewCodeWindow
-                            String getTextFromIndex = IndexField.getText();
 
                             if (!Objects.equals(MainNameNewProject, "") &&
-                                    !Objects.equals(getTextCodeNewProject, "") &&
-                                    !Objects.equals(getTextFromIndex, "")){
+                                    !Objects.equals(getTextCodeNewProject, "")){
                                 {
                                     ListDoneProjects.addElement(MainNameNewProject);
                                     WindowForAddProject.setVisible(false);
@@ -285,11 +292,11 @@ public class ALL_PROJ extends Thread {
         MainList.addListSelectionListener(e -> MainList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int getIndexToDel = MainList.getSelectedIndex();
-                String getName = ListDoneProjects.getElementAt(getIndexToDel);
+                getIndexToDel = MainList.getSelectedIndex();
+                getName1 = ListDoneProjects.getElementAt(getIndexToDel);
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     try {
-                        Files.delete(Paths.get(desktop_path + "\\App-for-projects\\" + getName + ".txt"));
+                        Files.delete(Paths.get(desktop_path + "\\App-for-projects\\" + getName1 + ".txt"));
                     } catch (IOException x) {
                         x.printStackTrace();
                     }
