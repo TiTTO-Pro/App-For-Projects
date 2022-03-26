@@ -2,7 +2,7 @@ package com.app_for_projects;
 
 /**
  * @author TiTTO-Pro
- * @version 1.7
+ * @version 1.8
  */
 
 import javax.swing.*;
@@ -12,13 +12,14 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class ALL_PROJ extends Thread {
     JFrame main_window = new JFrame("All Projects");//создаём основное окно и название
@@ -29,7 +30,7 @@ public class ALL_PROJ extends Thread {
     Dimension sSize = Toolkit.getDefaultToolkit ().getScreenSize ();
 
     int getLast_index, count_of_index, vertical, horizontal, getIndexToDel;// последний индекс в списке проектов и не только
-    String getName, fileName, content, ctc, getName1;
+    String getName, fileName, content, ctc, getName1, getText;
 
     public ALL_PROJ() {
         FrameSettings();
@@ -39,7 +40,7 @@ public class ALL_PROJ extends Thread {
     private void FrameSettings() {
         horizontal = sSize.width;
         vertical = sSize.height;
-        main_window.setSize((int) (horizontal / 1.7), vertical - 130);
+        main_window.setSize(horizontal / 2, vertical - 130);
         main_window.getContentPane().setBackground(Color.LIGHT_GRAY);
         main_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main_window.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));//крестообразный курсор
@@ -71,15 +72,16 @@ public class ALL_PROJ extends Thread {
     }
 
     //---------------------ВСЕ элементы в окне-------------------------------
-   
+
     private void FrameElements() {
-        JPanel extension_panel = new JPanel();
+
+        TransparentTextArea.CustomTextArea extension_panel = new TransparentTextArea.CustomTextArea();
         extension_panel.setLayout(new BorderLayout());
         Container mainContainer = main_window.getContentPane();//основная область для элементов юез рамки "ГОТОВО"
         mainContainer.add(extension_panel);
         //----------------заголовок "Готовые проекты"------------------------
         JLabel MainTitle = new JLabel("DONE PROJECTS:");// располагается вверху
-        MainTitle.setFont(new Font("ALGERIAN", Font.BOLD, 24));
+        MainTitle.setFont(new Font("ALGERIAN", Font.BOLD, 27));
         MainTitle.setForeground(Color.RED);
         mainContainer.add(MainTitle, BorderLayout.NORTH);
         //----------------Список всех проектов----------------------------
@@ -93,7 +95,6 @@ public class ALL_PROJ extends Thread {
         for (File file : fileList) {
             ListDoneProjects.addElement(file.getName().replace(".txt", ""));
         }
-
         //--------------
         JList<String> MainList = new JList<>(ListDoneProjects);
         MainList.setForeground(new Color(188, 188, 188));
@@ -104,13 +105,17 @@ public class ALL_PROJ extends Thread {
         mainContainer.add(pane, BorderLayout.WEST);
 
         //---------------Окно в котором появляется код----------------------
-       // TransparentTextArea.CustomTextArea CodeWindow = new TransparentTextArea.CustomTextArea();
+
         JTextArea CodeWindow = new JTextArea();
+        CodeWindow.setOpaque(false);
         CodeWindow.setBackground(new Color(9,1,28));
         CodeWindow.setForeground(new Color(209, 161, 226));
         CodeWindow.setFont(new Font("Arial", Font.BOLD, 20));
         extension_panel.add(CodeWindow);
+
         JScrollPane ScrollForCodeWindow = new JScrollPane(CodeWindow);// Scroll для перемотки(горизонтальный и вертикальный)
+        ScrollForCodeWindow.getViewport().setOpaque(false);
+        ScrollForCodeWindow.setOpaque(false);
         ScrollForCodeWindow.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         ScrollForCodeWindow.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         extension_panel.add(ScrollForCodeWindow);
@@ -147,7 +152,23 @@ public class ALL_PROJ extends Thread {
 
             }
         }));
+        //----------------------Сохраняем изменения кода проекта пользователем-----------------------------------------------
+        CodeWindow.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                getText = CodeWindow.getText();
 
+                if(!Objects.equals(getText, content)){
+                    try {
+                        FileWriter f2 = new FileWriter(desktop_path + "\\App-for-projects\\" + getName + ".txt", false);
+                        f2.write(getText);
+                        f2.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
         //-----------------Копирование текста с помощью ПКМ----------------------------------------
         CodeWindow.addMouseListener(new MouseAdapter() {
             @Override
@@ -215,7 +236,7 @@ public class ALL_PROJ extends Thread {
                     CodeNewProj.setBackground(new Color(9,1,28));
                     CodeNewProj.setForeground(new Color(209, 161, 226));
                     CodeNewProj.setFont(new Font(null, Font.BOLD, 18));
-                    CodeNewProj.setText("//Enter your code here\nMIN Index - 16"  + ", MAX Index - 40");
+                    CodeNewProj.setText("//Enter your code here");
                     box.add(CodeNewProj);
 
                     JButton ConfirmButton = new JButton("Confirm");
