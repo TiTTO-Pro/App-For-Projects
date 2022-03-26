@@ -2,7 +2,7 @@ package com.app_for_projects;
 
 /**
  * @author TiTTO-Pro
- * @version 1.6
+ * @version 1.8
  */
 
 public class Main {
