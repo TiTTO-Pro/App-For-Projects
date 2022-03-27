@@ -8,6 +8,7 @@ package com.app_for_projects;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -113,6 +114,9 @@ public class ALL_PROJ extends Thread {
         CodeWindow.setFont(new Font("Arial", Font.BOLD, 20));
         extension_panel.add(CodeWindow);
 
+        DefaultCaret caret = (DefaultCaret) CodeWindow.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
+        
         JScrollPane ScrollForCodeWindow = new JScrollPane(CodeWindow);// Scroll для перемотки(горизонтальный и вертикальный)
         ScrollForCodeWindow.getViewport().setOpaque(false);
         ScrollForCodeWindow.setOpaque(false);
