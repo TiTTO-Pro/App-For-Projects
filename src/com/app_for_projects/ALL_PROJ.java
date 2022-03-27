@@ -103,10 +103,10 @@ public class ALL_PROJ extends Thread {
         JScrollPane pane = new JScrollPane(MainList);
         pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         mainContainer.add(pane, BorderLayout.WEST);
-
         //---------------Окно в котором появляется код----------------------
-
         JTextArea CodeWindow = new JTextArea();
+        CodeWindow.setSelectedTextColor(new Color(129, 11, 4, 224));
+        CodeWindow.setSelectionColor(new Color(50, 28, 99));
         CodeWindow.setOpaque(false);
         CodeWindow.setBackground(new Color(9,1,28));
         CodeWindow.setForeground(new Color(209, 161, 226));
@@ -188,6 +188,7 @@ public class ALL_PROJ extends Thread {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {//     создаём новое окно для добавки проектов
                     JFrame WindowForAddProject = new JFrame("Add Project");
+                    WindowForAddProject.setResizable(false);
                     WindowForAddProject.setSize((int) (horizontal / 2.5), (int) (vertical / 1.4));
                     WindowForAddProject.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//    Код не завершается при выходе
                     WindowForAddProject.setVisible(true);
@@ -212,7 +213,7 @@ public class ALL_PROJ extends Thread {
                     DoubleContAddProj.add(TextFields);
                     //----
                     JTextField NameNewProj = new JTextField(30);
-                    NameNewProj.setDocument(new JTextFieldLimit(15));// максимальное кол-во символов для Name
+                    NameNewProj.setDocument(new JTextFieldLimit(17));// максимальное кол-во символов для Name
                     NameNewProj.setBackground(new Color(9, 50, 50));
                     NameNewProj.setForeground(new Color(144, 144, 144));
                     NameNewProj.setFont(new Font(null, Font.BOLD, 18));
@@ -230,14 +231,32 @@ public class ALL_PROJ extends Thread {
                     IndexField.setHorizontalAlignment(JLabel.CENTER);
                     box.add(IndexField);
                     //--------------------------------------------------------------
-                    //TransparentTextArea.CustomTextArea CodeNewProj = new TransparentTextArea.CustomTextArea();
                     JTextArea CodeNewProj = new JTextArea();
-                    CodeNewProj.setRows(240);
+                    CodeNewProj.setRows(23);
                     CodeNewProj.setBackground(new Color(9,1,28));
                     CodeNewProj.setForeground(new Color(209, 161, 226));
                     CodeNewProj.setFont(new Font(null, Font.BOLD, 18));
                     CodeNewProj.setText("//Enter your code here");
                     box.add(CodeNewProj);
+
+                    JScrollPane ScrollForCodeNewProj = new JScrollPane(CodeNewProj);
+
+                    ScrollForCodeNewProj.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                    ScrollForCodeNewProj.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+                    ScrollForCodeNewProj.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+                        @Override
+                        protected void configureScrollBarColors(){
+                            this.thumbColor = new Color(25, 41, 105, 242);
+                        }
+                    });
+                    ScrollForCodeNewProj.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
+                        @Override
+                        protected void configureScrollBarColors(){
+                            this.thumbColor = new Color(25, 41, 105, 242);
+                        }
+                    });
+                    box.add(ScrollForCodeNewProj);
 
                     JButton ConfirmButton = new JButton("Confirm");
                     ConfirmButton.setFont(new Font(null, Font.BOLD, 22));
@@ -254,20 +273,34 @@ public class ALL_PROJ extends Thread {
                             if (!Objects.equals(MainNameNewProject, "") &&
                                     !Objects.equals(getTextCodeNewProject, "")){
                                 {
-                                    ListDoneProjects.addElement(MainNameNewProject);
-                                    WindowForAddProject.setVisible(false);
+
                                     try {
                                         File createTxtFile = new File(desktop_path + "\\App-for-projects\\" + MainNameNewProject + ".txt");
 
                                         // if file doesn't exists, then create it
                                         if (!createTxtFile.exists()) {
                                             createTxtFile.createNewFile();
-                                        }
+                                            FileWriter fw = new FileWriter(createTxtFile.getAbsoluteFile());
+                                            BufferedWriter bw = new BufferedWriter(fw);
+                                            bw.write(getTextCodeNewProject);
+                                            bw.close();
 
-                                        FileWriter fw = new FileWriter(createTxtFile.getAbsoluteFile());
-                                        BufferedWriter bw = new BufferedWriter(fw);
-                                        bw.write(getTextCodeNewProject);
-                                        bw.close();
+                                            ListDoneProjects.addElement(MainNameNewProject);
+                                            WindowForAddProject.setVisible(false);
+                                        }
+                                        else{
+                                            JFrame error_frame = new JFrame("ERROR");
+                                            error_frame.setResizable(false);
+                                            error_frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                                            error_frame.getContentPane().setBackground(Color.lightGray);
+                                            error_frame.setBounds(horizontal / 6, (int) (vertical / 3.6), 380, 270);
+                                            error_frame.setVisible(true);
+
+                                            JLabel error_text = new JLabel("File already exist...", SwingConstants.CENTER);
+                                            error_text.setFont(new Font("Lucida Console", Font.BOLD, 25));
+                                            error_text.setForeground(Color.RED);
+                                            error_frame.add(error_text);
+                                        }
 
                                     } catch (IOException ex) {
                                         ex.printStackTrace();
