@@ -19,14 +19,13 @@ public class TransparentTextArea {
             }
         });
     }
-    public static class CustomTextArea extends JTextArea {
+    public static class CustomTextArea extends JPanel {
         File desktop_path = FileSystemView.getFileSystemView().getHomeDirectory();
         private BufferedImage image;
 
         public CustomTextArea() {
-            super(240, 20);
             try {
-                image = ImageIO.read(new File(desktop_path + "\\App-for-projects\\src\\com\\app_for_projects\\Background3.jpeg"));
+                image = ImageIO.read(new File(desktop_path + "\\App-for-projects\\src\\com\\app_for_projects\\Background3.jpeg" ));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
