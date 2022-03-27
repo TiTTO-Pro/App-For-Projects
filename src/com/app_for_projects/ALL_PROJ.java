@@ -8,7 +8,6 @@ package com.app_for_projects;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -82,7 +81,7 @@ public class ALL_PROJ extends Thread {
         mainContainer.add(extension_panel);
         //----------------заголовок "Готовые проекты"------------------------
         JLabel MainTitle = new JLabel("DONE PROJECTS:");// располагается вверху
-        MainTitle.setFont(new Font("ALGERIAN", Font.BOLD, 27));
+        MainTitle.setFont(new Font("ALGERIAN", Font.BOLD, 26));
         MainTitle.setForeground(Color.RED);
         mainContainer.add(MainTitle, BorderLayout.NORTH);
         //----------------Список всех проектов----------------------------
@@ -114,10 +113,8 @@ public class ALL_PROJ extends Thread {
         CodeWindow.setFont(new Font("Arial", Font.BOLD, 20));
         extension_panel.add(CodeWindow);
 
-        DefaultCaret caret = (DefaultCaret) CodeWindow.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
-        
         JScrollPane ScrollForCodeWindow = new JScrollPane(CodeWindow);// Scroll для перемотки(горизонтальный и вертикальный)
+        ScrollForCodeWindow.getVerticalScrollBar().setUnitIncrement(11);
         ScrollForCodeWindow.getViewport().setOpaque(false);
         ScrollForCodeWindow.setOpaque(false);
         ScrollForCodeWindow.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -295,7 +292,7 @@ public class ALL_PROJ extends Thread {
                                         else{
                                             JFrame error_frame = new JFrame("ERROR");
                                             error_frame.setResizable(false);
-                                            error_frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                                            error_frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                             error_frame.getContentPane().setBackground(Color.lightGray);
                                             error_frame.setBounds(horizontal / 6, (int) (vertical / 3.6), 380, 270);
                                             error_frame.setVisible(true);
