@@ -1,8 +1,8 @@
 package com.app_for_projects;
 
 /**
- * @author TiTTO-Pro
- * @version 1.8
+ * @author TiTTko
+ * @version 1.0.9
  */
 
 import javax.swing.*;
@@ -32,6 +32,9 @@ public class ALL_PROJ extends Thread {
     int getLast_index, count_of_index, vertical, horizontal, getIndexToDel;// последний индекс в списке проектов и не только
     String getName, fileName, content, ctc, getName1, getText;
 
+    ImageIcon icon = new ImageIcon(desktop_path + "\\App-for-projects\\Pictures\\delete.png");
+    ImageIcon error_icon = new ImageIcon(desktop_path + "\\App-for-projects\\Pictures\\error-message.png");
+
     public ALL_PROJ() {
         FrameSettings();
         FrameElements();
@@ -42,6 +45,7 @@ public class ALL_PROJ extends Thread {
         vertical = sSize.height;
         main_window.setSize(horizontal / 2, vertical - 130);
         main_window.getContentPane().setBackground(Color.LIGHT_GRAY);
+        main_window.setLocationRelativeTo(null);
         main_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main_window.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));//крестообразный курсор
 
@@ -72,25 +76,24 @@ public class ALL_PROJ extends Thread {
     }
 
     //---------------------ВСЕ элементы в окне-------------------------------
-
     private void FrameElements() {
 
-        TransparentTextArea.CustomTextArea extension_panel = new TransparentTextArea.CustomTextArea();
+        TransparentJPanel.CustomJPanel extension_panel = new TransparentJPanel.CustomJPanel();
         extension_panel.setLayout(new BorderLayout());
         Container mainContainer = main_window.getContentPane();//основная область для элементов юез рамки "ГОТОВО"
         mainContainer.add(extension_panel);
-        //----------------заголовок "Готовые проекты"------------------------
-        JLabel MainTitle = new JLabel("DONE PROJECTS:");// располагается вверху
-        MainTitle.setFont(new Font("ALGERIAN", Font.BOLD, 26));
-        MainTitle.setForeground(Color.RED);
-        mainContainer.add(MainTitle, BorderLayout.NORTH);
+        JLabel Title = new JLabel("Done Projects:");
+        Title.setFont(new Font("Algerian", Font.BOLD, 26));
+        Title.setForeground(Color.red);
+        mainContainer.add(Title, BorderLayout.NORTH);
+
         //----------------Список всех проектов----------------------------
         DefaultListModel<String> ListDoneProjects = new DefaultListModel<>();
         //-------------
-        ListDoneProjects.addElement("'< Tap on Enter >'");
+        ListDoneProjects.addElement("<Add new Project>");
         //------------------Для добавления уже существующих проектов-------------------------
         ArrayList<File> fileList = new ArrayList<>();
-        ALL_PROJ.searchFiles(new File(desktop_path + "\\App-for-projects\\"), fileList);
+        ALL_PROJ.searchFiles(new File(desktop_path + "\\App-for-projects\\Projects"), fileList);
 
         for (File file : fileList) {
             ListDoneProjects.addElement(file.getName().replace(".txt", ""));
@@ -133,41 +136,45 @@ public class ALL_PROJ extends Thread {
             }
         });
 
-        //-----------------------ОСНОВНАЯ ФИГНЯ, Выбор кода------------------------------------
+        //-----------------------Функция выбора проекта------------------------------------
         MainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        MainList.addListSelectionListener(e -> MainList.addMouseListener(new MouseAdapter() {
-
+        MainList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                count_of_index = MainList.getSelectedIndex();
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    count_of_index = MainList.getSelectedIndex();
 
-                getName = ListDoneProjects.getElementAt(count_of_index);
-                fileName = desktop_path + "\\App-for-projects\\" + getName + ".txt";
-                content = null;
-                try {
-                    content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                    if(count_of_index >= 1) {
+                        getName = ListDoneProjects.getElementAt(count_of_index);
+                        fileName = desktop_path + "\\App-for-projects\\Projects\\" + getName + ".txt";
+                        content = "";
+                        try {
+                            content = Files.lines(Paths.get(fileName)).reduce("", (a, b) -> a + "\n" + b);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        CodeWindow.setText(content);
+                    }
+
                 }
-                CodeWindow.setText(content);
-
             }
-        }));
-        //----------------------Сохраняем изменения кода проекта пользователем-----------------------------------------------
+        });
+        //----------------------Сохраняем изменения кода проекта пользователем-------------------
         CodeWindow.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 getText = CodeWindow.getText();
 
-                if(!Objects.equals(getText, content)){
+                if (!Objects.equals(getText, content)) {
                     try {
-                        FileWriter f2 = new FileWriter(desktop_path + "\\App-for-projects\\" + getName + ".txt", false);
+                        FileWriter f2 = new FileWriter(desktop_path + "\\App-for-projects\\Projects\\" + getName + ".txt", false);
                         f2.write(getText);
                         f2.close();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                 }
+
             }
         });
         //-----------------Копирование текста с помощью ПКМ----------------------------------------
@@ -184,13 +191,14 @@ public class ALL_PROJ extends Thread {
         });
 
         //-------------------Для добавления нового проекта-----------------------------
-        MainList.addKeyListener(new KeyAdapter() {
+        MainList.addMouseListener(new MouseAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {//     создаём новое окно для добавки проектов
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1 && count_of_index == 0) {//     создаём новое окно для добавки проектов
                     JFrame WindowForAddProject = new JFrame("Add Project");
                     WindowForAddProject.setResizable(false);
                     WindowForAddProject.setSize((int) (horizontal / 2.5), (int) (vertical / 1.4));
+                    WindowForAddProject.setLocationRelativeTo(null);
                     WindowForAddProject.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//    Код не завершается при выходе
                     WindowForAddProject.setVisible(true);
                     //--------------------------------------------------------------
@@ -199,7 +207,7 @@ public class ALL_PROJ extends Thread {
                     JPanel TitleTheme = new JPanel();// панель для title, находится вверху
                     TitleTheme.setBackground(new Color(26, 26, 42));
                     DoubleContAddProj.add(TitleTheme, BorderLayout.NORTH);
-                    JLabel AddProjTitle = new JLabel("Add new Project Window", SwingConstants.CENTER);
+                    JLabel AddProjTitle = new JLabel("Add new Project", SwingConstants.CENTER);
                     AddProjTitle.setForeground(new Color(188, 188, 188));
                     AddProjTitle.setFont(new Font(null, Font.BOLD, 28));
                     TitleTheme.add(AddProjTitle, BorderLayout.NORTH);
@@ -214,7 +222,7 @@ public class ALL_PROJ extends Thread {
                     DoubleContAddProj.add(TextFields);
                     //----
                     JTextField NameNewProj = new JTextField(30);
-                    NameNewProj.setDocument(new JTextFieldLimit(17));// максимальное кол-во символов для Name
+                    NameNewProj.setDocument(new JTextFieldLimit(19));// максимальное кол-во символов для Name
                     NameNewProj.setBackground(new Color(9, 50, 50));
                     NameNewProj.setForeground(new Color(144, 144, 144));
                     NameNewProj.setFont(new Font(null, Font.BOLD, 18));
@@ -233,7 +241,7 @@ public class ALL_PROJ extends Thread {
                     box.add(IndexField);
                     //--------------------------------------------------------------
                     JTextArea CodeNewProj = new JTextArea();
-                    CodeNewProj.setRows(23);
+                    CodeNewProj.setRows(vertical / 47);
                     CodeNewProj.setBackground(new Color(9,1,28));
                     CodeNewProj.setForeground(new Color(209, 161, 226));
                     CodeNewProj.setFont(new Font(null, Font.BOLD, 18));
@@ -241,9 +249,9 @@ public class ALL_PROJ extends Thread {
                     box.add(CodeNewProj);
 
                     JScrollPane ScrollForCodeNewProj = new JScrollPane(CodeNewProj);
-
                     ScrollForCodeNewProj.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
                     ScrollForCodeNewProj.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+                    ScrollForCodeNewProj.getVerticalScrollBar().setUnitIncrement(11);
 
                     ScrollForCodeNewProj.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
                         @Override
@@ -276,7 +284,7 @@ public class ALL_PROJ extends Thread {
                                 {
 
                                     try {
-                                        File createTxtFile = new File(desktop_path + "\\App-for-projects\\" + MainNameNewProject + ".txt");
+                                        File createTxtFile = new File(desktop_path + "\\App-for-projects\\Projects\\" + MainNameNewProject + ".txt");
 
                                         // if file doesn't exists, then create it
                                         if (!createTxtFile.exists()) {
@@ -290,20 +298,13 @@ public class ALL_PROJ extends Thread {
                                             WindowForAddProject.setVisible(false);
                                         }
                                         else{
-                                            JFrame error_frame = new JFrame("ERROR");
-                                            error_frame.setResizable(false);
-                                            error_frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                                            error_frame.getContentPane().setBackground(Color.lightGray);
-                                            error_frame.setBounds(horizontal / 6, (int) (vertical / 3.6), 380, 270);
-                                            error_frame.setVisible(true);
+                                            JOptionPane.showMessageDialog(WindowForAddProject, "File already exist...",
+                                                    "ERROR",
+                                                    JOptionPane.ERROR_MESSAGE, error_icon);
 
-                                            JLabel error_text = new JLabel("File already exist...", SwingConstants.CENTER);
-                                            error_text.setFont(new Font("Lucida Console", Font.BOLD, 25));
-                                            error_text.setForeground(Color.RED);
-                                            error_frame.add(error_text);
                                         }
-
-                                    } catch (IOException ex) {
+                                    }
+                                    catch (IOException ex) {
                                         ex.printStackTrace();
                                     }
                                 }
@@ -338,30 +339,39 @@ public class ALL_PROJ extends Thread {
             public void mouseClicked(MouseEvent e) {
                 int ButtonClickMask = e.getModifiers();
                 if ((ButtonClickMask & InputEvent.BUTTON1_MASK) == InputEvent.BUTTON1_MASK) {
-                    CodeWindow.setText(null);
+                    CodeWindow.setText("");
                 }
             }
         });
 
-        //----------------------------Удаление НОВЫХ проектов с помощью ПКМ при наведении на Main List------------------------------------------------
-        MainList.addListSelectionListener(e -> MainList.addMouseListener(new MouseAdapter() {
+        //-----------------Удаление НОВЫХ проектов с помощью ПКМ при наведении на Main List------------
+        MainList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 getIndexToDel = MainList.getSelectedIndex();
                 getName1 = ListDoneProjects.getElementAt(getIndexToDel);
+
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    try {
-                        Files.delete(Paths.get(desktop_path + "\\App-for-projects\\" + getName1 + ".txt"));
-                    } catch (IOException x) {
-                        x.printStackTrace();
+                    Object[] options = {"Yes", "No", "Cancel"};
+                    int n = JOptionPane.showOptionDialog(main_window,
+                            "Do you really want to delete the project?", "Delete?",
+                            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                            icon, options, options[2]);
+                    if(n == 0){//yes
+                        try {
+                            Files.delete(Paths.get(desktop_path + "\\App-for-projects\\Projects\\" + getName1 + ".txt"));
+                        } catch (IOException x) {
+                            x.printStackTrace();
+                        }
+                        ListDoneProjects.remove(getIndexToDel);
                     }
-                    ListDoneProjects.remove(getIndexToDel);
                 }
+
             }
-        }));
+        });
 
         //-----------------Information-----------------------
-        CodeWindow.setText("-----------------------------------------------INFO-----------------------------------------------\n" +
+        CodeWindow.setText("-----------------------------------------------INFO-------------------------------------------\n" +
                 " - Click MOUSE3(on Code Window) to FAST COPY\n" +
                 " - To delete a project just click on the project you need to \n" +
                 "  delete and click 'right mouse button'\n" +
@@ -370,7 +380,7 @@ public class ALL_PROJ extends Thread {
                 "'<Tap on Enter>' all the time, you can click on any project)\n" +
                 " - If you already have ready-made projects in .txt files, just\n" +
                 "  transfer them to the project folder \n" +
-                " ----------------------------------------------------------------------------------------------------\n" +
+                " ------------------------------------------------------------------------------------------------\n" +
                 "That's all)\n" +
                 ":D");
         //--------------------Цвета Scroll панелей-------------------------------
