@@ -8,9 +8,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class TransparentTextArea {
+class TransparentJPanel {
 
-    public TransparentTextArea() {
+    public TransparentJPanel() {
         EventQueue.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -19,22 +19,21 @@ public class TransparentTextArea {
             }
         });
     }
-    public static class CustomTextArea extends JPanel {
+    public static class CustomJPanel extends JPanel {
         File desktop_path = FileSystemView.getFileSystemView().getHomeDirectory();
         private BufferedImage image;
 
-        public CustomTextArea() {
+        public CustomJPanel() {
             try {
-                image = ImageIO.read(new File(desktop_path + "\\App-for-projects\\src\\com\\app_for_projects\\Background3.jpeg" ));
+                image = ImageIO.read(new File(desktop_path + "\\App-for-projects\\Pictures\\Background3.jpeg"));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
 
         @Override
-        public boolean isOpaque() {
-            return false;
-        }
+        public boolean isOpaque() {return false;}
+
 
         @Override
         protected void paintComponent(Graphics g) {
