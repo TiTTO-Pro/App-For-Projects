@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 
 class TransparentJPanel {
-
     public TransparentJPanel() {
         EventQueue.invokeLater(() -> {
             try {
@@ -20,20 +19,24 @@ class TransparentJPanel {
         });
     }
     public static class CustomJPanel extends JPanel {
-        File desktop_path = FileSystemView.getFileSystemView().getHomeDirectory();
+        private static final File desktop_path = FileSystemView.getFileSystemView().getHomeDirectory();
         private BufferedImage image;
 
-        public CustomJPanel() {
-            try {
-                image = ImageIO.read(new File(desktop_path + "\\App-for-projects\\Pictures\\Background3.jpeg"));
-            } catch (IOException ex) {
-                ex.printStackTrace();
+        public CustomJPanel(BufferedImage image1) {
+            if(image1 == null){
+                try {
+                    image = ImageIO.read(new File(desktop_path + "\\App-for-projects\\Pictures\\Background3.png"));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            else{
+                image = image1;
             }
         }
 
         @Override
         public boolean isOpaque() {return false;}
-
 
         @Override
         protected void paintComponent(Graphics g) {
